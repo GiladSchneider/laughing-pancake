@@ -1,4 +1,3 @@
-#import numpy as np
 import random
 def iter(board,n):
     for i in range(n):
@@ -13,7 +12,7 @@ def printboard(board,x,num):
             
       #  print()
     #print()    
-    f = open("arrays/arrays%s.txt" %(num),"w")
+    f = open("arrays%s/arrays%s.txt" %(x,num),"w")
     for i in range(x):
         for j in range(x):
             f.write(board[i][j])
@@ -81,8 +80,8 @@ def check(board,n):
                 #print("%s %s" %(i,j))
                 return i*n+j
     return -1 
-def main():
-    n=101
+def main(n):
+    
     for num in range (50):
         board = [['U']*n for _ in range(n) ]
         xstart = random.randint(0, n-1)
@@ -108,7 +107,7 @@ def main():
         #  temp = -1
         # temp = check(board,n)
         hi = creator(board,n,stack)
-        temp = check(board,n)+1
+        temp = check(board,n)
         while temp !=-1:
             stack.append(temp)
             creator(board,n,stack)
@@ -117,7 +116,7 @@ def main():
         #iter(board,n)
         printboard(board,n,num)
 
-main()
+main(101)
 
 
 
