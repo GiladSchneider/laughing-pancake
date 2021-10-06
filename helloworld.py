@@ -6,13 +6,21 @@ def iter(board,n):
             if((board[i][j])=='U'):
                 board[i][j]=block()
     return board
-def printboard(board,x):
+def printboard(board,x,num):
+   # for i in range(x):
+    #    for j in range(x):
+     #       print("%s " % (board[i][j]), end="",flush=True)
+            
+      #  print()
+    #print()    
+    f = open("arrays/arrays%s.txt" %(num),"w")
     for i in range(x):
         for j in range(x):
-            print("%s " % (board[i][j]), end="",flush=True)
+            f.write(board[i][j])
             
-        print()
-    print()    
+        f.write("\n")
+    f.write("\n")    
+    f.close()
 def block():
      
     if random.randint(0, 10)>6:
@@ -75,39 +83,39 @@ def check(board,n):
     return -1 
 def main():
     n=101
+    for num in range (50):
+        board = [['U']*n for _ in range(n) ]
+        xstart = random.randint(0, n-1)
+        ystart = random.randint(0, n-1)
+        xtar = xstart
+        ytar = ystart
+        #print("%s %s" % (xstart,ystart))
+        board[xstart][ystart] = 'S'
+        while xtar==xstart and ytar == ystart:
+            xtar = random.randint(0, n-1)
+            ytar = random.randint(0, n-1)
 
-    board = [['U']*n for _ in range(n) ]
-    xstart = random.randint(0, n-1)
-    ystart = random.randint(0, n-1)
-    xtar = xstart
-    ytar = ystart
-    #print("%s %s" % (xstart,ystart))
-    board[xstart][ystart] = 'S'
-    while xtar==xstart and ytar == ystart:
-        xtar = random.randint(0, n-1)
-        ytar = random.randint(0, n-1)
-
-    board[xtar][ytar] = 'T'
-    stack =[]
-    #print("%s %s %s %s" % (xstart,ystart,xtar,ytar))
-    stack.append(xstart*(n)+ystart)
-    #hi = creator(board,n,stack)
-    #printboard(board,n)
-    #temp = check(board,n)+1
-   # while temp !=-1:
-    #   stack.append(temp)
-     #  creator(board,n,stack)
-     #  temp = -1
-      # temp = check(board,n)
-    hi = creator(board,n,stack)
-    temp = check(board,n)+1
-    while temp !=-1:
-       stack.append(temp)
-       creator(board,n,stack)
-       temp = -1
-       temp = check(board,n)
-    #iter(board,n)
-    printboard(board,n)
+        board[xtar][ytar] = 'T'
+        stack =[]
+        #print("%s %s %s %s" % (xstart,ystart,xtar,ytar))
+        stack.append(xstart*(n)+ystart)
+        #hi = creator(board,n,stack)
+        #printboard(board,n)
+        #temp = check(board,n)+1
+    # while temp !=-1:
+        #   stack.append(temp)
+        #  creator(board,n,stack)
+        #  temp = -1
+        # temp = check(board,n)
+        hi = creator(board,n,stack)
+        temp = check(board,n)+1
+        while temp !=-1:
+            stack.append(temp)
+            creator(board,n,stack)
+            temp = -1
+            temp = check(board,n)
+        #iter(board,n)
+        printboard(board,n,num)
 
 main()
 
