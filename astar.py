@@ -1,6 +1,41 @@
 from os import X_OK
 import copy
-
+def insert(address, tree,dict):
+    tree.append(address)
+    return siftup(tree,len(tree)-1,dict)
+    #return tree
+def siftup(tree,i,dict):
+    while i>0:
+        if dict[tree[i]]<=dict[tree[i//2]]:
+            temp = tree[i//2]
+            tree[i//2] = tree[i]
+            tree[i] = temp
+        i=i//2
+    return tree
+def pop(tree,dict):
+    temp = tree[0]
+    tree[0] = tree[len(tree)-1]
+    del(tree[len(tree)-1])
+    return temp,siftdown(tree,dict)
+def siftdown(tree,dict):
+    i=0
+    while i*2<len(tree):
+        sc = smallestchild(i,tree,dict)
+        if dict[tree[i]]>dict[tree[sc]]:
+            temp = tree[sc]
+            tree[sc] = tree[i]
+            tree[i] = temp
+            i=sc
+        else:
+             return tree
+    return tree
+def smallestchild(i,tree,dict):
+    if i*2+1==len(tree):
+        return i*2
+    else:
+        if(dict[tree[i*2+1]]>dict[tree[i*2]]):
+            return i*2
+        return i*2+1
 def h(s,xtar,ytar,n):
     x= s//n
     y=s%n
@@ -43,13 +78,16 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
     g={s:prev}
     f = h(s,xtar,ytar,n)+g[s]
     openf = {s:f}
+    openhead  = [s]
     closedf=dict()
     parent={s:s}
     #print("%s %s %s %s" %(xstart,ystart,xtar,ytar))
     while(len(openf)>0):
         #printboard(board,n,f)
         counter = counter+1
-        s=min(openf, key=openf.get)
+        [s,openhead] =pop(openhead,openf)
+        closedf[s] = openf[s]
+        del openf[s]
         prev =g[s]
          
         x=s//(n)
@@ -68,9 +106,12 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
         if(y<n-1 and board[x][y+1]!='B'):
             list.append((x)*(n)+y+1)
         for a in list:
-            if(a in openf):
+            if(a in openhead):
                 if(g[a]<=prev+1):
                      continue
+                else:
+                    g[a]=prev+1
+                    continue
             elif(a in closedf):
            #    if(g[a]<=prev+1):
                    continue
@@ -78,11 +119,12 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
            #     del closedf[a]
            # else:
            #     openf[a]=h(a,xtar,ytar,n)
+            print("%s %s" %(prev+1,h(a,xtar,ytar,n)))
             openf[a]=h(a,xtar,ytar,n)+prev+1
+            insert(a,openhead,openf)
             g[a] = prev+1
             parent[a] = s
-        closedf[s] = openf[s]
-        del openf[s]
+        
     if((x!=xtar or y!=ytar)):
         f = open("arrays%a/arrays%sans.txt" %(n,num),"w")
         f.write("No path found"+"\n")
@@ -116,6 +158,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
     
 def main():
     for i in range(50):
+        
         [board,xstart,ystart,xtar,ytar,n,num] =init(101,i)
         loop(board,xstart,ystart,xtar,ytar,n,num)
 main()
