@@ -1,27 +1,28 @@
 from os import X_OK
 import copy
-def insert(address, tree,dict):
+def insert(address, tree,dict,g):
     tree.append(address)
-    return siftup(tree,len(tree)-1,dict)
+    
+    return siftup(tree,len(tree)-1,dict,g)
     #return tree
-def siftup(tree,i,dict):
+def siftup(tree,i,dict,g):
     while i>0:
-        if dict[tree[i]]<=dict[tree[i//2]]:
+        if dict[tree[i]]<dict[tree[i//2]] or (dict[tree[i]]==dict[tree[i//2]] and g[tree[i//2]]<g[tree[i]]):
             temp = tree[i//2]
             tree[i//2] = tree[i]
             tree[i] = temp
         i=i//2
     return tree
-def pop(tree,dict):
+def pop(tree,dict,g):
     temp = tree[0]
     tree[0] = tree[len(tree)-1]
     del(tree[len(tree)-1])
-    return temp,siftdown(tree,dict)
-def siftdown(tree,dict):
+    return temp,siftdown(tree,dict,g)
+def siftdown(tree,dict,g):
     i=0
     while i*2<len(tree):
-        sc = smallestchild(i,tree,dict)
-        if dict[tree[i]]>dict[tree[sc]]:
+        sc = smallestchild(i,tree,dict,g)
+        if dict[tree[i]]>dict[tree[sc]] or (dict[tree[i]]==dict[tree[sc]] and g[tree[i]]<g[tree[sc]]):
             temp = tree[sc]
             tree[sc] = tree[i]
             tree[i] = temp
@@ -29,16 +30,18 @@ def siftdown(tree,dict):
         else:
              return tree
     return tree
-def smallestchild(i,tree,dict):
+def smallestchild(i,tree,dict,g):
     if i*2+1==len(tree):
         return i*2
     else:
-        if(dict[tree[i*2+1]]>dict[tree[i*2]]):
+        if(dict[tree[i*2+1]]>dict[tree[i*2]] or (dict[tree[i*2+1]]==dict[tree[i*2]] and g[tree[i*2+1]]<g[tree[i*2]])):
             return i*2
-        return i*2+1
+        else:
+            return i*2+1
 def h(s,xtar,ytar,n):
     x= s//n
     y=s%n
+    
     return abs(xtar-x)+abs(ytar-y)
 
 def printboard(board,x,f):
@@ -85,7 +88,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
     while(len(openf)>0):
         #printboard(board,n,f)
         counter = counter+1
-        [s,openhead] =pop(openhead,openf)
+        [s,openhead] =pop(openhead,openf,g)
         closedf[s] = openf[s]
         del openf[s]
         prev =g[s]
@@ -105,12 +108,14 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
             list.append((x)*(n)+y-1)
         if(y<n-1 and board[x][y+1]!='B'):
             list.append((x)*(n)+y+1)
+        boolean = True
         for a in list:
             if(a in openhead):
-                if(g[a]<=prev+1):
-                     continue
-                else:
-                    g[a]=prev+1
+             #   if(g[a]<=prev+1):
+              #      boolean = False
+               #      continue
+               # else:
+                #    g[a]=prev+1
                     continue
             elif(a in closedf):
            #    if(g[a]<=prev+1):
@@ -119,10 +124,11 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
            #     del closedf[a]
            # else:
            #     openf[a]=h(a,xtar,ytar,n)
-            print("%s %s" %(prev+1,h(a,xtar,ytar,n)))
-            openf[a]=h(a,xtar,ytar,n)+prev+1
-            insert(a,openhead,openf)
+          #  print("%s %s" %(prev+1,h(a,xtar,ytar,n)))
+            
             g[a] = prev+1
+            openf[a]=h(a,xtar,ytar,n)+prev+1
+            insert(a,openhead,openf,g)
             parent[a] = s
         
     if((x!=xtar or y!=ytar)):
@@ -158,7 +164,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
     
 def main():
     for i in range(50):
-        
+        #i=28
         [board,xstart,ystart,xtar,ytar,n,num] =init(101,i)
         loop(board,xstart,ystart,xtar,ytar,n,num)
 main()
