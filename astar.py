@@ -108,7 +108,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
             list.append((x)*(n)+y-1)
         if(y<n-1 and board[x][y+1]!='B'):
             list.append((x)*(n)+y+1)
-        #boolean = True
+        boolean = True
         for a in list:
             if(a in openhead):
              #   if(g[a]<=prev+1):
@@ -127,7 +127,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
           #  print("%s %s" %(prev+1,h(a,xtar,ytar,n)))
             
             g[a] = prev+1
-            openf[a]=h(a,xtar,ytar,n)+g[a]
+            openf[a]=h(a,xtar,ytar,n)+prev+1
             insert(a,openhead,openf,g)
             parent[a] = s
         
@@ -143,13 +143,15 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
         printboard(orig,n,f)
         f.write("board "+str(num)+" searched"+"\n")
         printboard(board,n,f)
+        coun =0
         start = xstart*n+ystart
         s = xtar*n+ytar
-        ans=[s]
+        ans={s:s}
         f.write("board "+str(num)+" Path"+"\n")
         
         while s!=start:     
-             ans.append(parent[s])
+             ans[coun]= parent[s]
+             coun=coun+1
              s= parent[s]
         for s in reversed(ans):
              x=ans[s]//n 
