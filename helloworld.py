@@ -1,10 +1,10 @@
 import random
-def iter(board,n):
-    for i in range(n):
-        for j in range(n):
-            if((board[i][j])=='U'):
-                board[i][j]=block()
-    return board
+#def iter(board,n):
+#    for i in range(n):
+#        for j in range(n):
+#            if((board[i][j])=='U'):
+#                board[i][j]=block()
+#    return board
 def printboard(board,x,num):
    # for i in range(x):
     #    for j in range(x):
