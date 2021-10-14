@@ -142,4 +142,4 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
              orig[x][y] = 'X'
         printboard(orig,n,f)
         f.close
-        return reversed(ans)
+        return ans
