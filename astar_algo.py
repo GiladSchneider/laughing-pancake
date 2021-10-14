@@ -111,12 +111,16 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
             g[a] = prev+1
             openf[a]=h(a,xtar,ytar,n)+prev+1
             insert(a,openhead,openf,g)
+            counter= counter + 1
             parent[a] = s
         
     if((x!=xtar or y!=ytar)):
         f = open("arrays%a/arrays%sans.txt" %(n,num),"w")
         f.write("No path found"+"\n")
         printboard(board,n,f)
+        f.close
+        f = open("Data/data0.txt" ,"a")
+        f.write("" + str(counter) + ",")
         f.close
     else:
         f = open("arrays%a/arrays%sans.txt" %(n,num),"w")  
@@ -141,5 +145,8 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
              f.write("(" +str(y+1)+" , "+ str(x+1)+ " )" +"\n")
              orig[x][y] = 'X'
         printboard(orig,n,f)
+        f.close
+        f = open("Data/data0.txt" ,"a")
+        f.write("" + str(counter) + ",")
         f.close
         return ans
