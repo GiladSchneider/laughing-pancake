@@ -1,4 +1,6 @@
 from astar_algo import loop
+from astar_algo import printboard
+from astar import init
 
 def state_to_xy(state, n):
     return state//(n), state%(n)
@@ -14,7 +16,7 @@ def reveal(state_x, state_y, game_board, board, n):
     if state_y > 0:
         game_board[state_x][state_y-1] = board[state_x][state_y-1]
     if state_y < (n-1):
-        game_board[state_x][state_y+1] = board[state_x-1][state_y]+1
+        game_board[state_x][state_y+1] = board[state_x][state_y+1]
 
 # Returns game_board on success
 def r_astar(board, xstart, ystart, xtar, ytar, n, num):
@@ -37,6 +39,16 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
     
     found = False
     while not found:
+        if path == None:  #Hi Gil # the code breaks if there is no path because then s = none from the loop function, and the reverse function won't take it as an input
+            #therefore since this will only happen when no path exists you should just give up and return the game board 
+            f = open("arrays%a/arrays%sansR.txt" %(n,num),"w")
+            f.write("No path found"+"\n")
+            f.write("board "+str(num)+" Original"+"\n")
+            printboard(board,n,f)
+            f.write("board "+str(num)+" searched"+"\n")
+            printboard(game_board,n,f)
+            f.close()
+            return game_board
         for s in reversed(path):
             to_x, to_y = state_to_xy(path[s], n)
             
@@ -55,6 +67,27 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
                 state_x, state_y = to_x, to_y
                 game_board[state_x][state_y] = 'X'
                 reveal(state_x, state_y, game_board, board, n)
-    
+                print("Stuck!") #around here is where the infinite loop can occur
+
+
+   
+    f = open("arrays%a/arrays%sansR.txt" %(n,num),"w")
+    f.write("Path found"+"\n")
+    f.write("board "+str(num)+" Original"+"\n")
+    printboard(board,n,f)
+    f.write("board "+str(num)+" searched"+"\n")
+    printboard(game_board,n,f)
+    f.close()
     return game_board
+
+
+
+def main():
+    for i in range(50):
+        [board,xstart,ystart,xtar,ytar,n,num] = init(7,i) #i was using 7x7 arrays to test this chagne the 7 to whatever array size you are using
+        r_astar(board,xstart,ystart,xtar,ytar,n,num)
+        
+
+
+main()
 
