@@ -53,6 +53,7 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
 
             else:
                 state_x, state_y = to_x, to_y
+                game_board[state_x][state_y] = 'X'
                 reveal(state_x, state_y, game_board, board, n)
     
     return game_board
