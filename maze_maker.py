@@ -1,17 +1,17 @@
 import random
-#def iter(board,n):
-#    for i in range(n):
-#        for j in range(n):
-#            if((board[i][j])=='U'):
-#                board[i][j]=block()
-#    return board
+def iter(board,n):
+    for i in range(n):
+        for j in range(n):
+            if((board[i][j])=='U'):
+                board[i][j]=block()
+    return board
 def printboard(board,x,num):
-   # for i in range(x):
-    #    for j in range(x):
-     #       print("%s " % (board[i][j]), end="",flush=True)
+    for i in range(x):
+        for j in range(x):
+            print("%s " % (board[i][j]), end="",flush=True)
             
-      #  print()
-    #print()    
+        print()
+    print()    
     f = open("arrays%s/arrays%s.txt" %(x,num),"w")
     for i in range(x):
         for j in range(x):
@@ -80,6 +80,15 @@ def check(board,n):
                 #print("%s %s" %(i,j))
                 return i*n+j
     return -1 
+
+def dataMaker(number):
+    for i in range(4):
+        f = open("Data/data%s.txt" %(i),"w")
+        for j in range(50):
+            f.write("0,")
+        f.close
+            
+
 def main(n):
     
     for num in range (50):
@@ -115,6 +124,8 @@ def main(n):
             temp = check(board,n)
         #iter(board,n)
         printboard(board,n,num)
+    #adding Data folder 
+    dataMaker(4)
 
 main(101)
 
