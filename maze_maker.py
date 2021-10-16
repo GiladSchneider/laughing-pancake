@@ -5,13 +5,7 @@ def iter(board,n):
             if((board[i][j])=='U'):
                 board[i][j]=block()
     return board
-def printboard(board,x,num):
-    for i in range(x):
-        for j in range(x):
-            print("%s " % (board[i][j]), end="",flush=True)
-            
-        print()
-    print()    
+def printboard(board,x,num):  
     f = open("arrays%s/arrays%s.txt" %(x,num),"w")
     for i in range(x):
         for j in range(x):
@@ -115,6 +109,7 @@ def main(n):
         #  creator(board,n,stack)
         #  temp = -1
         # temp = check(board,n)
+        print(f"Generating Board #{num+1}")
         hi = creator(board,n,stack)
         temp = check(board,n)
         while temp !=-1:
