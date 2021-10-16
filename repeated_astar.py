@@ -9,14 +9,14 @@ def xy_to_state(state_x, state_y, n):
     return (state_x*n)+state_y
 
 def reveal(state_x, state_y, game_board, board, n):
-    if state_x > 0:
+    if (state_x > 0) and (game_board[state_x-1][state_y] != 'X'):
         game_board[state_x-1][state_y] = board[state_x-1][state_y]
-    if state_x < (n-1):
+    if (state_x < (n-1)) and (game_board[state_x+1][state_y] != 'X'):
        game_board[state_x+1][state_y] = board[state_x+1][state_y]
-    if state_y > 0:
+    if (state_y > 0) and (game_board[state_x][state_y-1] != 'X'):
         game_board[state_x][state_y-1] = board[state_x][state_y-1]
-    if state_y < (n-1):
-        game_board[state_x][state_y+1] = board[state_x][state_y+1]
+    if (state_y < (n-1)) and (game_board[state_x][state_y+1] != 'X'):
+        game_board[state_x][state_y+1] = board[state_x-1][state_y+1]
 
 # Returns game_board on success
 def r_astar(board, xstart, ystart, xtar, ytar, n, num):
@@ -39,8 +39,9 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
     
     found = False
     while not found:
-        if path == None:  #Hi Gil # the code breaks if there is no path because then s = none from the loop function, and the reverse function won't take it as an input
-            #therefore since this will only happen when no path exists you should just give up and return the game board 
+
+        # If no path exists, stop
+        if path == None:
             f = open("arrays%a/arrays%sansR.txt" %(n,num),"w")
             f.write("No path found"+"\n")
             f.write("board "+str(num)+" Original"+"\n")
@@ -48,29 +49,39 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
             f.write("board "+str(num)+" searched"+"\n")
             printboard(game_board,n,f)
             f.close()
+            print('No Path Available')
+            found = True
             return game_board
+
         for s in reversed(path):
+            # Reveal current location and calculate next move
+            reveal(state_x, state_y, game_board, board, n)
             to_x, to_y = state_to_xy(path[s], n)
             
-            if game_board[to_x][to_y] == 'T':
-                game_board[to_x][to_y] = 'X'
-                print("Success!")
-                found = True
-                break
-
+            # If the path starts w the current position, continue to next move
+            if to_x == state_x and to_y == state_y:
+                    continue
             
-            elif game_board[to_x][to_y] == 'B':
+            # If your next move is obstructed, recalculate the path
+            if game_board[to_x][to_y] == 'B':
                 path = loop(game_board, state_x, state_y, xtar, ytar, n, num)
                 break
-
+            
+            # If your path is not obstructed, take a step
             else:
                 state_x, state_y = to_x, to_y
-                game_board[state_x][state_y] = 'X'
-                reveal(state_x, state_y, game_board, board, n)
-                print("Stuck!") #around here is where the infinite loop can occur
-
-
-   
+                
+                # Check for a win
+                if state_x == goal_x and state_y == goal_y:
+                    print("Success!")
+                    found = True
+                    break
+                else:
+                    game_board[state_x][state_y] = 'X'
+                
+                
+                
+    
     f = open("arrays%a/arrays%sansR.txt" %(n,num),"w")
     f.write("Path found"+"\n")
     f.write("board "+str(num)+" Original"+"\n")
@@ -80,14 +91,6 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
     f.close()
     return game_board
 
-
-
-def main():
-    for i in range(50):
-        [board,xstart,ystart,xtar,ytar,n,num] = init(7,i) #i was using 7x7 arrays to test this chagne the 7 to whatever array size you are using
+for i in range(50):
+        [board,xstart,ystart,xtar,ytar,n,num] = init(101,i) #i was using 7x7 arrays to test this chagne the 7 to whatever array size you are using
         r_astar(board,xstart,ystart,xtar,ytar,n,num)
-        
-
-
-main()
-
