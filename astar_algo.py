@@ -77,9 +77,11 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
          
         x=s//(n)
         y=s%(n)
-        board[x][y]='X'
+        
         if(x==xtar and y==ytar):
             break
+            
+        board[x][y]='X'
         #printboard(board,n,f)
         list =[]
         if(x>0 and board[x-1][y]!='B'):
