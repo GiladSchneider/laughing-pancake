@@ -1,6 +1,6 @@
 from astar_algo import printboard
 
-def vis_init(n,num):
+def vis_init_r(n,num):
     board=[]
     file = open("arrays%a/arrays%sansR.txt" %(n,num),"r")
     
@@ -15,7 +15,18 @@ def vis_init(n,num):
 
     return board,n,num,message
 
-def visualize(board, n, num, message):
+def vis_init_s(n,num):
+    board=[]
+
+    file = open("arrays%a/arrays%s.txt" %(n,num),"r")
+    for i in range(n):
+        line = file.readline()
+        board.append(list(line[:-1]))
+    file.close()
+
+    return board,n,num
+
+def visualize(board, n, num, message = None):
     for i in range(n):
         for j in range(n):
             letter = board[i][j]
@@ -33,14 +44,19 @@ def visualize(board, n, num, message):
             elif letter == 'T':
                 swap = '😵'
             board[i][j] = swap
-    
-    f = open("Visualized/arrays%svis.txt" %(num),"w")
-    f.write(message)
+    if message != None:
+        f = open("Visualized/arrays%srepeated_astar.txt" %(num),"w")
+        f.write(message)
+    else:
+        f = open("Visualized/arrays%sboard.txt" %(num), "w")
     printboard(board, n, f)
     f.close()
 
 def main():
     for i in range(50):
-        [board,n,num,message] = vis_init(101,i) #i was using 7x7 arrays to test this chagne the 7 to whatever array size you are using
+        [board,n,num,message] = vis_init_r(101,i)
         visualize(board, n, num, message)
+
+        [board,n,num] = vis_init_s(101,i)
+        visualize(board, n, num)
 main() 
