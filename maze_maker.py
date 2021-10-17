@@ -123,6 +123,3 @@ def main(n):
     dataMaker(4)
 
 main(101)
-
-
-
