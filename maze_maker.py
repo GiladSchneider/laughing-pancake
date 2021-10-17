@@ -79,6 +79,8 @@ def dataMaker(number):
     for i in range(4):
         f = open("Data/data%s.txt" %(i),"w")
     f.close
+    f = open("Data/temp","w")
+    f.close
             
 
 def main(n):
