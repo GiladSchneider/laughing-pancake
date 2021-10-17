@@ -54,9 +54,9 @@ def visualize(board, n, num, message = None):
 
 def main():
     for i in range(50):
-        [board,n,num,message] = vis_init_r(101,i)
-        visualize(board, n, num, message)
-
         [board,n,num] = vis_init_s(101,i)
         visualize(board, n, num)
+
+        [board,n,num,message] = vis_init_r(101,i)
+        visualize(board, n, num, message)
 main() 
