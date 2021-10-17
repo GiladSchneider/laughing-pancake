@@ -134,14 +134,15 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
         coun =0
         start = xstart*n+ystart
         s = xtar*n+ytar
-        ans={s:s}
+        ans={0:s}
         f.write("board "+str(num)+" Path"+"\n")
-        
+        coun +=1
         while s!=start:     
              ans[coun]= parent[s]
              coun=coun+1
              s= parent[s]
         for s in reversed(ans):
+
              x=ans[s]//n 
              y=ans[s]%n 
              f.write("(" +str(y+1)+" , "+ str(x+1)+ " )" +"\n")
