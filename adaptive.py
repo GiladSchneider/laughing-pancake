@@ -149,7 +149,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num,hue):
     if((x!=xtar or y!=ytar)):
         a= dict()
         b = dict()
-        return a,hue,b
+        return a,hue,b,g
       #  f = open("arrays%a/arrays%sans.txt" %(n,num),"w")
        # f.write("No path found"+"\n")
         #printboard(board,n,f)
@@ -178,7 +178,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num,hue):
          #    orig[x][y] = 'X'
        # printboard(orig,n,f)
        # f.close
-        return ans,hue,parent
+        return ans,hue,parent,g
     
 def state_to_xy(state, n):
     return state//(n), state%(n)
@@ -216,7 +216,7 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
     reveal(xstart, ystart, game_board=game_board, board=board, n=n)
     hue = dict()
     #Start the game loop
-    path,hue,parent = loop(copy.deepcopy(game_board), state_x, state_y, goal_x, goal_y, n, num,hue)
+    path,hue,parent,g = loop(copy.deepcopy(game_board), state_x, state_y, goal_x, goal_y, n, num,hue)
     found = False
     while not found:
 
@@ -236,18 +236,11 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
 
         counter =0
     
-        for s in list(range(len(path))):
-            hue[path[s]]=counter
-            counter+=1
+        en = g[path[0]]
         for p in parent:
             
-            counter =0
-            b=p
-            while not(b in hue):
-                b = parent[b]
-                counter+=1
-            if not(p in hue) or hue[p]<hue[b]+counter:
-                hue[p] = hue[b]+counter
+            
+            hue[p] = en-g[p]
         for s in reversed(list(range(len(path)))):
             # Reveal current location and calculate next move
             reveal(state_x, state_y, game_board, board, n)
@@ -259,7 +252,7 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
             # If your next move is obstructed, recalculate the path
             if board[to_x][to_y] == 'B':
                 #print('ERR 2')
-                path,hue,parent = loop(copy.deepcopy(game_board), state_x, state_y, xtar, ytar, n, num,hue)
+                path,hue,parent,g = loop(copy.deepcopy(game_board), state_x, state_y, xtar, ytar, n, num,hue)
                 break
             
             # If your path is not obstructed, take a step
@@ -285,5 +278,5 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
     return game_board
 
 for i in range(50):
-        [board,xstart,ystart,xtar,ytar,n,num] = init(7,i)
+        [board,xstart,ystart,xtar,ytar,n,num] = init(101,i)
         r_astar(board,xstart,ystart,xtar,ytar,n,num)
