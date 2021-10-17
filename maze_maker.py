@@ -78,9 +78,7 @@ def check(board,n):
 def dataMaker(number):
     for i in range(4):
         f = open("Data/data%s.txt" %(i),"w")
-        for j in range(50):
-            f.write("0,")
-        f.close
+    f.close
             
 
 def main(n):
