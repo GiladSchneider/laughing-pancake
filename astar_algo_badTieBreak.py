@@ -1,4 +1,6 @@
 import copy
+from dataAnalyzer import addtemp
+
 def insert(address, tree,dict,g):
     tree.append(address)
     
@@ -22,7 +24,6 @@ def siftdown(tree,dict,g):
     while i*2<len(tree):
         sc = smallestchild(i,tree,dict,g)
         if dict[tree[i]]>dict[tree[sc]] or (dict[tree[i]]==dict[tree[sc]] and g[tree[i]]>g[tree[sc]]):# look at g tree[sc] has a higher prio , this is tie breaking so lower g value gets priority
-            temp = tree[sc]
             temp = tree[sc]
             tree[sc] = tree[i]
             tree[i] = temp
@@ -54,7 +55,7 @@ def printboard(board,x,f):
     f.write("\n")    
    # f.close()   
     
-def loop(board,xstart,ystart,xtar,ytar,n,num):
+def loop1(board,xstart,ystart,xtar,ytar,n,num):
     counter=0
     orig = copy.deepcopy(board)
     prev =0
@@ -78,9 +79,11 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
          
         x=s//(n)
         y=s%(n)
-        board[x][y]='X'
+        
         if(x==xtar and y==ytar):
             break
+            
+        board[x][y]='X'
         #printboard(board,n,f)
         list =[]
         if(x>0 and board[x-1][y]!='B'):
@@ -112,15 +115,17 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
             g[a] = prev+1
             openf[a]=h(a,xtar,ytar,n)+prev+1
             insert(a,openhead,openf,g)
+            counter= counter + 1
             parent[a] = s
         
     if((x!=xtar or y!=ytar)):
-        f = open("arrays%a/arrays%sans.txt" %(n,num),"w")
+        f = open("arrays%a/arrays%sansBad.txt" %(n,num),"w")
         f.write("No path found"+"\n")
         printboard(board,n,f)
         f.close
+        addtemp(counter)
     else:
-        f = open("arrays%a/arrays%sans.txt" %(n,num),"w")  
+        f = open("arrays%a/arrays%sansBad.txt" %(n,num),"w")  
         f.write("board "+str(num)+" Original"+"\n")
         
         printboard(orig,n,f)
@@ -129,18 +134,20 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
         coun =0
         start = xstart*n+ystart
         s = xtar*n+ytar
-        ans={s:s}
+        ans={0:s}
         f.write("board "+str(num)+" Path"+"\n")
-        
+        coun +=1
         while s!=start:     
              ans[coun]= parent[s]
              coun=coun+1
              s= parent[s]
         for s in reversed(ans):
+
              x=ans[s]//n 
              y=ans[s]%n 
              f.write("(" +str(y+1)+" , "+ str(x+1)+ " )" +"\n")
              orig[x][y] = 'X'
         printboard(orig,n,f)
         f.close
+        addtemp(counter)
         return ans
