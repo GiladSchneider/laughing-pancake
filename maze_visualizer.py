@@ -32,17 +32,17 @@ def visualize(board, n, num, message = None):
             letter = board[i][j]
             swap = '🟢'
             if letter == 'O':
-                swap = '⚪️'
+                swap = '*'
             elif letter == 'B':
-                swap = '🟤'
+                swap = '0'
             elif letter == 'X':
-                swap = '🔵'
+                swap = ' '
             elif letter == 'U':
-                swap = '⚫️'
+                swap = '-'
             elif letter == 'S':
-                swap = '😘'
+                swap = 'S'
             elif letter == 'T':
-                swap = '😵'
+                swap = 'T'
             board[i][j] = swap
     if message != None:
         f = open("Visualized/arrays%srepeated_astar.txt" %(num),"w")
