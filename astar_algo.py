@@ -1,4 +1,6 @@
 import copy
+from dataAnalyzer import addtemp
+
 def insert(address, tree,dict,g):
     tree.append(address)
     
@@ -121,9 +123,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
         f.write("No path found"+"\n")
         printboard(board,n,f)
         f.close
-        f = open("Data/data0.txt" ,"a")
-        f.write("" + str(counter) + ",")
-        f.close
+        addtemp(counter)
     else:
         f = open("arrays%a/arrays%sans.txt" %(n,num),"w")  
         f.write("board "+str(num)+" Original"+"\n")
@@ -149,7 +149,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
              orig[x][y] = 'X'
         printboard(orig,n,f)
         f.close
-        f = open("Data/data0.txt" ,"a")
-        f.write("" + str(counter) + ",")
-        f.close
+        addtemp(counter)
+
         return ans
+
