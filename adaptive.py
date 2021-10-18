@@ -7,6 +7,9 @@
 #also, even if already in heu, can replace value with smaller number     quick psuedocode for adaptive. will try to code saturday night i guess when repeated a star is done
 from os import X_OK
 import copy
+
+from dataAnalyzer import resetData, addtemp, calcOps
+
 def insert(address, tree,dict,g):
     tree.append(address)
     
@@ -149,6 +152,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num,hue):
     if((x!=xtar or y!=ytar)):
         a= dict()
         b = dict()
+        addtemp(counter)
         return a,hue,b,g
       #  f = open("arrays%a/arrays%sans.txt" %(n,num),"w")
        # f.write("No path found"+"\n")
@@ -178,6 +182,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num,hue):
          #    orig[x][y] = 'X'
        # printboard(orig,n,f)
        # f.close
+        addtemp(counter)
         return ans,hue,parent,g
     
 def state_to_xy(state, n):
@@ -223,7 +228,7 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
         # If no path exists, stop
         if path == None or len(path)==0:
             game_board[xstart][ystart], game_board[goal_x][goal_y] = 'S', 'T'
-            f = open("arrays%a/arrays%sansR.txt" %(n,num),"w")
+            f = open("arrays%a/arrays%sansAdap.txt" %(n,num),"w")
             f.write("No path found"+"\n")
             f.write("board "+str(num)+" Original"+"\n")
             printboard(board,n,f)
@@ -268,15 +273,18 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
                     game_board[state_x][state_y] = 'X'
                     #
             counter+=1
-    f = open("arrays%a/arrays%sansR.txt" %(n,num),"w")
+    f = open("arrays%a/arrays%sansAdap.txt" %(n,num),"w")
     f.write("Path found"+"\n")
     f.write("board "+str(num)+" Original"+"\n")
     printboard(board,n,f)
     f.write("board "+str(num)+" searched"+"\n")
     printboard(game_board,n,f)
     f.close()
+    addtemp(counter)
     return game_board
 
+resetData(2)
 for i in range(50):
         [board,xstart,ystart,xtar,ytar,n,num] = init(101,i)
         r_astar(board,xstart,ystart,xtar,ytar,n,num)
+        calcOps(2) #data0 corresponds to the operations from repeated a*
