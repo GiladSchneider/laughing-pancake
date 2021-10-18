@@ -147,6 +147,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num,hue):
             else:
                 openf[a]= h(a,xtar,ytar,n)+g[a]
             insert(a,openhead,openf,g)
+            
             parent[a] = s
         
     if((x!=xtar or y!=ytar)):
@@ -280,7 +281,6 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
     f.write("board "+str(num)+" searched"+"\n")
     printboard(game_board,n,f)
     f.close()
-    addtemp(counter)
     return game_board
 
 resetData(2)
