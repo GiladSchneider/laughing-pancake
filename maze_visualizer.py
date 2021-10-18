@@ -34,7 +34,7 @@ def visualize(board, n, num, message = None):
             if letter == 'O':
                 swap = '*'
             elif letter == 'B':
-                swap = '0'
+                swap = 'x'
             elif letter == 'X':
                 swap = ' '
             elif letter == 'U':
