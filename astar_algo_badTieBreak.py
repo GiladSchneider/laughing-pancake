@@ -115,7 +115,6 @@ def loop1(board,xstart,ystart,xtar,ytar,n,num):
             g[a] = prev+1
             openf[a]=h(a,xtar,ytar,n)+prev+1
             insert(a,openhead,openf,g)
-            counter= counter + 1
             parent[a] = s
         
     if((x!=xtar or y!=ytar)):

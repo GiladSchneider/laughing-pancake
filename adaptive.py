@@ -7,6 +7,7 @@
 #also, even if already in heu, can replace value with smaller number     quick psuedocode for adaptive. will try to code saturday night i guess when repeated a star is done
 from os import X_OK
 import copy
+import time
 
 from dataAnalyzer import resetData, addtemp, calcOps
 
@@ -240,7 +241,7 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
             found = True
             return game_board
 
-        counter =0
+        counter2 =0
     
         en = g[path[0]]
         for p in parent:
@@ -273,7 +274,7 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
                 else:
                     game_board[state_x][state_y] = 'X'
                     #
-            counter+=1
+            counter2+=1
     f = open("arrays%a/arrays%sansAdap.txt" %(n,num),"w")
     f.write("Path found"+"\n")
     f.write("board "+str(num)+" Original"+"\n")
@@ -284,7 +285,10 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
     return game_board
 
 resetData(2)
+t1=time.perf_counter()
 for i in range(50):
         [board,xstart,ystart,xtar,ytar,n,num] = init(101,i)
         r_astar(board,xstart,ystart,xtar,ytar,n,num)
         calcOps(2) #data0 corresponds to the operations from repeated a*
+t2=time.perf_counter()
+print("adaptive A* took "+ str(t2-t1)+ " seconds")

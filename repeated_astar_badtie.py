@@ -3,6 +3,7 @@ from astar_algo import printboard
 from astar import init
 from dataAnalyzer import calcOps, resetData
 import copy
+import time
 
 def state_to_xy(state, n):
     return state//(n), state%(n)
@@ -98,8 +99,11 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
     return game_board
 
 resetData(1)
+t1=time.perf_counter()
 for i in range(50):
         [board,xstart,ystart,xtar,ytar,n,num] = init(101,i)
         r_astar(board,xstart,ystart,xtar,ytar,n,num)
         calcOps(1) #data1 corresponds to the operations from repeated a*
+t2=time.perf_counter()
+print("bad tiebreaking repeated A* took "+ str(t2-t1)+ " seconds")
         
