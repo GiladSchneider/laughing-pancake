@@ -1,6 +1,7 @@
 from astar_algo import loop
 from astar_algo import printboard
 from astar import init
+from dataAnalyzer import calcOps, resetData
 import copy
 
 def state_to_xy(state, n):
@@ -93,8 +94,11 @@ def r_astar(board, xstart, ystart, xtar, ytar, n, num):
     f.write("board "+str(num)+" searched"+"\n")
     printboard(game_board,n,f)
     f.close()
+  
     return game_board
 
+resetData(0)
 for i in range(50):
         [board,xstart,ystart,xtar,ytar,n,num] = init(101,i)
         r_astar(board,xstart,ystart,xtar,ytar,n,num)
+        calcOps(0) #data0 corresponds to the operations from repeated a*
