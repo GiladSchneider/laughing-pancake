@@ -1,4 +1,4 @@
-mport copy
+import copy
 from astar import init
 def insert(address, tree,dict,g):
     tree.append(address)
@@ -118,7 +118,7 @@ def loop(board,xstart,ystart,xtar,ytar,n,num):
             parent[a] = s
         
     if((x!=xtar or y!=ytar)):
-        f = open("arrays%a/arrays%sBackwards.txt" %(n,num),"w")
+        f = open("arrays%a/arrays%sbackwards.txt" %(n,num),"w")
         f.write("No path found"+"\n")
         printboard(board,n,f)
         f.close
@@ -159,7 +159,6 @@ def b_astar(board,xstart,ystart,xtar,ytar,n,num):
     rev_answer = loop(board,xtar,ytar,xstart,ystart,n,num)
     return rev_answer
 
-
 for i in range(50):
         [board,xstart,ystart,xtar,ytar,n,num] = init(101,i)
-        b_astar(board,xstart,ystart,xtar,ytar,n,num)
+        b_astar(board,xstart,ystart,xtar,ytar,n,num)  
