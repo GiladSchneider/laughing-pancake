@@ -30,18 +30,18 @@ def r_b_astar(board, xstart, ystart, xtar, ytar, n, num):
     game_board = [['U']*n for _ in range(n)]
     
     state = xy_to_state(xstart, ystart, n)
-    state_x, state_y = state_to_xy(state, n)
-    game_board[xstart][ystart] = 'S'
+    goal_x, goal_y = state_to_xy(state, n)
+    game_board[xstart][ystart] = 'T'
     
     goal_state = xy_to_state(xtar, ytar, n)
-    goal_x, goal_y = state_to_xy(goal_state, n)
-    game_board[goal_x][goal_y] = 'T'
+    state_x, state_y = state_to_xy(goal_state, n)
+    game_board[goal_x][goal_y] = 'S'
 
     # Initial Drop of Agent into field reveles the squares around the agent
-    reveal(xstart, ystart, game_board=game_board, board=board, n=n)
+    reveal(xtar, ytar, game_board=game_board, board=board, n=n)
     
     #Start the game loop
-    path = b_astar(copy.deepcopy(game_board), state_x, state_y, goal_x, goal_y, n, num)
+    path = b_astar(copy.deepcopy(game_board), goal_x, goal_y, state_x, state_y, n, num)
     
     found = False
     while not found:
@@ -72,7 +72,7 @@ def r_b_astar(board, xstart, ystart, xtar, ytar, n, num):
             # If your next move is obstructed, recalculate the path
             if board[to_x][to_y] == 'B':
                 #print('ERR 2')
-                path = b_astar(copy.deepcopy(game_board), state_x, state_y, xtar, ytar, n, num)
+                path = b_astar(copy.deepcopy(game_board), goal_x, goal_y, state_x, state_y, n, num)
                 break
             
             # If your path is not obstructed, take a step
