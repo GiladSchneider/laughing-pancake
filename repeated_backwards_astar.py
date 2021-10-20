@@ -38,7 +38,7 @@ def r_b_astar(board, xstart, ystart, xtar, ytar, n, num):
     game_board[goal_x][goal_y] = 'S'
 
     # Initial Drop of Agent into field reveles the squares around the agent
-    reveal(xtar, ytar, game_board=game_board, board=board, n=n)
+    reveal(state_x, state_y, game_board=game_board, board=board, n=n)
     
     #Start the game loop
     path = b_astar(copy.deepcopy(game_board), goal_x, goal_y, state_x, state_y, n, num)
@@ -48,7 +48,7 @@ def r_b_astar(board, xstart, ystart, xtar, ytar, n, num):
 
         # If no path exists, stop
         if path == None:
-            game_board[xstart][ystart], game_board[goal_x][goal_y] = 'S', 'T'
+            game_board[xstart][ystart], game_board[xtar][ytar] = 'S', 'T'
             f = open("arrays%a/arrays%sRbackwards.txt" %(n,num),"w")
             f.write("No path found"+"\n")
             f.write("board "+str(num)+" Original"+"\n")
@@ -81,7 +81,7 @@ def r_b_astar(board, xstart, ystart, xtar, ytar, n, num):
                 # Check for a win
                 if state_x == goal_x and state_y == goal_y:
                     print("Success!")
-                    game_board[xstart][ystart], game_board[goal_x][goal_y] = 'S', 'T'
+                    game_board[xstart][ystart], game_board[xtar][ytar] = 'S', 'T'
                     found = True
                     break
                 else:
