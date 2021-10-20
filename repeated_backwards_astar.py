@@ -2,6 +2,8 @@ from backwards_astar import b_astar
 from astar_algo import printboard
 from astar import init
 import copy
+import time
+from dataAnalyzer import calcOps, resetData
 
 def state_to_xy(state, n):
     return state//(n), state%(n)
@@ -95,6 +97,11 @@ def r_b_astar(board, xstart, ystart, xtar, ytar, n, num):
     f.close()
     return game_board
 
+resetData(0)
+t1 =time.perf_counter()
 for i in range(50):
         [board,xstart,ystart,xtar,ytar,n,num] = init(101,i)
         r_b_astar(board,xstart,ystart,xtar,ytar,n,num)
+        calcOps(3)
+t2 = time.perf_counter()
+print("repeated backwards A* took "+ str(t2-t1)+ " seconds")

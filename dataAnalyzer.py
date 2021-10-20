@@ -47,7 +47,7 @@ def resetData(fileNum):
 def main():
     f = open("Data/data5.txt", "w")
     f.close
-    for i in range (3):
+    for i in range (4):
         totalComp = analyze(i)
         averageComp = average(totalComp)
         f = open("Data/data5.txt" ,"a")
