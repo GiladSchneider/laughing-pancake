@@ -15,6 +15,21 @@ def vis_init_r(n,num):
 
     return board,n,num,message
 
+def vis_init_a(n,num):
+    board=[]
+    file = open("arrays%a/arrays%sansAdap.txt" %(n,num),"r")
+    
+    message = file.readline()
+    for j in range(104):
+        file.readline()
+
+    for i in range(n):
+        line = file.readline()
+        board.append(list(line[:-1]))
+    file.close()
+
+    return board,n,num,message
+
 def vis_init_r_b(n,num):
     board=[]
     file = open("arrays%a/arrays%sRbackwards.txt" %(n,num),"r")
@@ -68,7 +83,9 @@ def visualize(board, n, num, message = None, type = 0):
         f = open("Visualized/arrays%sbac_rep_astar.txt" %(num),"w")
         f.write(message)
     elif type == 4:
-        f = open("Visualized/arrays%sbackwards.txt" %(num), "w")
+        f = open("Visualized/arrays%sbackwards.tt" %(num), "w")
+    elif type == 5:
+        f = open("Visualized/arrays%sAdap.txt" %(num), "w")
     else:
         print('No Type Input')
 
@@ -85,4 +102,7 @@ def main():
 
         [board,n,num,message] = vis_init_r_b(101,i)
         visualize(board, n, num, message, type = 3)
+
+        [board,n,num,message] = vis_init_a(101,i)
+        visualize(board, n, num, message, type = 5)
 main() 
