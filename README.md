@@ -6,3 +6,5 @@ and a folder in the repo loaction called "Data"
 
 To run the visualizer, create a folder called "Visualized"
 Start -> Kisyy Face, End -> Dead Face
+
+DONSKI
